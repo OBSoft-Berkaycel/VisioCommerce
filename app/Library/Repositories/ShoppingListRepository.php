@@ -7,7 +7,6 @@ use App\Http\Requests\ShoppingList\ShoppingListUpdateRequest;
 use App\Library\Repositories\Interfaces\ShoppingListRepositoryInterface;
 use App\Models\ShoppingList;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ShoppingListRepository implements ShoppingListRepositoryInterface
@@ -18,7 +17,7 @@ class ShoppingListRepository implements ShoppingListRepositoryInterface
         return ShoppingList::all();
     }
 
-    public function getShoppingListById(int $listId): Collection
+    public function getShoppingListById(int $listId): Collection|ShoppingList
     {
         return ShoppingList::find($listId);
     }

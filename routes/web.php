@@ -20,7 +20,7 @@ Route::prefix('v1')->group(function(){
         Route::delete('delete', [ShoppingListController::class, 'destroy'])->name('shopping-list.delete');
 
         ## Shopping List Update Routes
-        Route::get('getListItems/{shoppingList}', [ShoppingListController::class, 'getListItems'])->name('shopping-list.getListItems');
+        Route::get('getListItems', [ShoppingListController::class, 'getListItems'])->name('shopping-list.getListItems');
         Route::post('addNewItem', [ShoppingListController::class, 'addNewItemToList'])->name('shopping-list.addNewItem');
         Route::delete('removeItemFromList', [ShoppingListController::class, 'removeItemFromList'])->name('shopping-list.removeItemFromList');
     });
