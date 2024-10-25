@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->validateCsrfTokens(except: [
+            'v1/*', ## csrf protection was disabled for test process
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

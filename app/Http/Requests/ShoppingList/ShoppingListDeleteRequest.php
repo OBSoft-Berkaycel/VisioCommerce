@@ -11,7 +11,7 @@ class ShoppingListDeleteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,21 @@ class ShoppingListDeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'listId' => 'required|numeric|exists:shopping_lists,id',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'listId.required' => 'The list ID is required.',
+            'listId.numeric' => 'The list ID must be a valid number.',
+            'listId.exists' => 'The selected list ID does not exist in our records.',
         ];
     }
 }

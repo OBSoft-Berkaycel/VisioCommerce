@@ -2,44 +2,128 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShoppingList\ShoppingListCreateRequest;
+use App\Http\Requests\ShoppingList\ShoppingListDeleteRequest;
+use App\Http\Requests\ShoppingList\ShoppingListUpdateRequest;
+use App\Library\Repositories\Interfaces\ShoppingListRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ShoppingListController extends Controller
 {
-    // Route: GET 'listAll'
+
+    public function __construct(private readonly ShoppingListRepositoryInterface $shoppingListRepository){}
+
     public function index()
     {
-        // Method to list all shopping lists
+        try {
+            return response()->json([
+                "status" => true,
+                "data" => $this->shoppingListRepository->getAll()
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list index method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list process!'
+            ],422);
+        }
     }
 
-    // Route: GET 'listByUserId/{userId}'
-    public function getByUserId($userId)
+    public function getByUserId(Request $request)
     {
-        // Method to get shopping lists by user ID
+        try {
+            
+            $request->validate([
+                "userId" => "required|numeric"
+            ]);
+            $request->only(['userId']);
+            return response()->json([
+                "status" => true,
+                "data" => $this->shoppingListRepository->getShoppingListsByUserId($request->get('userId'))
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list getByUserId method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list getByUserId process!'
+            ],422);
+        }
     }
 
-    // Route: GET 'listBylistId'
     public function getByListId(Request $request)
     {
-        // Method to get shopping list by list ID
+        try {
+            
+            $request->validate([
+                "listId" => "required|numeric"
+            ]);
+            $request->only(['listId']);
+            return response()->json([
+                "status" => true,
+                "data" => $this->shoppingListRepository->getShoppingListById($request->get('listId'))
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list getByListId method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list getByListId process!'
+            ],422);
+        }
     }
 
-    // Route: POST 'create'
-    public function store(Request $request)
+    public function store(ShoppingListCreateRequest $request)
     {
-        // Method to create a new shopping list
+        try {
+            $request->only(['userId','name']);
+            $this->shoppingListRepository->createShoppingList($request);
+            return response()->json([
+                "status" => true,
+                "message" => "New shopping list was created successfully!",
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list store method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list create process!'
+            ],422);
+        }
     }
 
-    // Route: PUT 'update'
-    public function update(Request $request)
+    public function update(ShoppingListUpdateRequest $request)
     {
-        // Method to update an existing shopping list
+        try {
+            $request->only(['listId','name']);
+            $this->shoppingListRepository->updateShoppingList($request);
+            return response()->json([
+                "status" => true,
+                "message" => "Shopping list was updated successfully!",
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list update method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list update process!'
+            ],422);
+        }
     }
 
-    // Route: DELETE 'delete'
-    public function destroy(Request $request)
+    public function destroy(ShoppingListDeleteRequest $request)
     {
-        // Method to delete a shopping list
+        try {
+            $request->only(['listId']);
+            $this->shoppingListRepository->deleteShoppingList($request);
+            return response()->json([
+                "status" => true,
+                "message" => "Shopping list was deleted successfully!",
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('There is and error occured on shopping list destroy method! Error: '.$th->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => 'There is and error occured on shopping list delete process!'
+            ],422);
+        }
     }
 
     // Route: GET 'getListItems/{shoppingList}'

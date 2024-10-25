@@ -1,16 +1,17 @@
 <?php
 namespace App\Library\Repositories\Interfaces;
 
-use App\Models\ShoppingList;
+use App\Http\Requests\ShoppingList\ShoppingListCreateRequest;
+use App\Http\Requests\ShoppingList\ShoppingListDeleteRequest;
+use App\Http\Requests\ShoppingList\ShoppingListUpdateRequest;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 
 interface ShoppingListRepositoryInterface
 {
     public function getAll(): Collection;
     public function getShoppingListById(int $listId): Collection;
     public function getShoppingListsByUserId(int $userId): Collection;
-    public function createShoppingList(Request $request): void;
-    public function updateShoppingList(Request $request): void;
-    public function deleteShoppingList(ShoppingList $shoppingList): void;
+    public function createShoppingList(ShoppingListCreateRequest $request): void;
+    public function updateShoppingList(ShoppingListUpdateRequest $request): void;
+    public function deleteShoppingList(ShoppingListDeleteRequest $request): void;
 }

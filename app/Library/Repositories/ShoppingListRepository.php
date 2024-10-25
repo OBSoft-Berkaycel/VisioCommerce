@@ -1,6 +1,9 @@
 <?php
 namespace App\Library\Repositories;
 
+use App\Http\Requests\ShoppingList\ShoppingListCreateRequest;
+use App\Http\Requests\ShoppingList\ShoppingListDeleteRequest;
+use App\Http\Requests\ShoppingList\ShoppingListUpdateRequest;
 use App\Library\Repositories\Interfaces\ShoppingListRepositoryInterface;
 use App\Models\ShoppingList;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,19 +28,30 @@ class ShoppingListRepository implements ShoppingListRepositoryInterface
         return ShoppingList::where('user_id',$userId)->get();
     }
 
-    public function createShoppingList(Request $request): void
+    public function createShoppingList(ShoppingListCreateRequest $request): void
     {
-        
+        DB::transaction(function() use ($request){
+            ShoppingList::create([
+                "user_id" => $request->get('userId'),
+                "name" => $request->get('name')
+            ]);
+        });
     }
 
-    public function updateShoppingList(Request $request): void
+    public function updateShoppingList(ShoppingListUpdateRequest $request): void
     {
-        
+        DB::transaction(function() use ($request){
+            $shoppingList = ShoppingList::find($request->get('listId'));
+            $shoppingList->name = $request->get('name');
+            $shoppingList->save();
+        });
     }
 
-    public function deleteShoppingList(ShoppingList $shoppingList): void
+    public function deleteShoppingList(ShoppingListDeleteRequest $request): void
     {
-        
+        DB::transaction(function() use ($request){
+            ShoppingList::find($request->get('listId'))->delete();
+        });
     }
     
 }
