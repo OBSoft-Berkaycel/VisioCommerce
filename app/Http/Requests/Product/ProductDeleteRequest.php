@@ -11,7 +11,7 @@ class ProductDeleteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class ProductDeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'productId' => "required|numeric|exists:products,id",
+        ];
+    }
+
+    /**
+     * Define custom error messages.
+     */
+    public function messages(): array
+    {
+        return [
+            'productId.required' => 'The product ID is required.',
+            'productId.numeric' => 'The product ID must be a valid number.',
+            'productId.exists' => 'The selected product does not exist.',
         ];
     }
 }

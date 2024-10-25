@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingListController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,11 @@ Route::prefix('v1')->group(function(){
         Route::delete('removeItemFromList', [ShoppingListController::class, 'removeItemFromList'])->name('shopping-list.removeItemFromList');
     });
     ## Product Routes
+
+    Route::prefix('products')->group(function(){
+        Route::get('getAll', [ProductController::class, 'index'])->name('products.index');
+        Route::post('create', [ProductController::class, 'store'])->name('products.create');
+        Route::put('update', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('delete', [ProductController::class, 'destroy'])->name('products.delete');
+    });
 });
