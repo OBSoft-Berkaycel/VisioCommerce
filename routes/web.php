@@ -17,7 +17,7 @@ Route::prefix('v1')->group(function(){
         Route::get('listByUserId',[ShoppingListController::class, 'getByUserId'])->name('shopping-list.getByUserId');
         Route::get('listBylistId', [ShoppingListController::class, 'getByListId'])->name('shopping-list.getByListId');
         Route::post('create', [ShoppingListController::class, 'store'])->name('shopping-list.create');
-        Route::put('update', [ShoppingListController::class, 'update'])->name('shoppin-list.update');
+        Route::put('update', [ShoppingListController::class, 'update'])->name('shopping-list.update');
         Route::delete('delete', [ShoppingListController::class, 'destroy'])->name('shopping-list.delete');
 
         ## Shopping List Update Routes
