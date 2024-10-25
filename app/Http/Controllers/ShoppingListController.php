@@ -6,43 +6,57 @@ use Illuminate\Http\Request;
 
 class ShoppingListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Route: GET 'listAll'
     public function index()
     {
-        //
+        // Method to list all shopping lists
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Route: GET 'listByUserId/{userId}'
+    public function getByUserId($userId)
+    {
+        // Method to get shopping lists by user ID
+    }
+
+    // Route: GET 'listBylistId'
+    public function getByListId(Request $request)
+    {
+        // Method to get shopping list by list ID
+    }
+
+    // Route: POST 'create'
     public function store(Request $request)
     {
-        //
+        // Method to create a new shopping list
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Route: PUT 'update'
+    public function update(Request $request)
     {
-        //
+        // Method to update an existing shopping list
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Route: DELETE 'delete'
+    public function destroy(Request $request)
     {
-        //
+        // Method to delete a shopping list
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Route: GET 'getListItems/{shoppingList}'
+    public function getListItems($shoppingList)
     {
-        //
+        // Method to get items of a specific shopping list
+    }
+
+    // Route: POST 'addNewItem'
+    public function addNewItemToList(Request $request)
+    {
+        // Method to add a new item to the shopping list
+    }
+
+    // Route: DELETE 'removeItemFromList'
+    public function removeItemFromList(Request $request)
+    {
+        // Method to remove an item from the shopping list
     }
 }
